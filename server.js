@@ -68,7 +68,7 @@ io.on('connection', socket => {
       "sender": {
         "name": socket.name ? socket.name : socket.id,
         "uid": socket.id,
-        "avatar": "https://data.cometchat.com/assets/images/avatars/ironman.png",
+        "avatar": "https://images.vexels.com/media/users/3/129733/isolated/preview/a558682b158debb6d6f49d07d854f99f-casual-male-avatar-silhouette.png",
       },
     }
     io.to('one').emit('gotMessage', message); 

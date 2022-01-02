@@ -49,6 +49,8 @@ function App() {
     // Determine if the user is the host of the room 
     socket.current.on('isHost', (host, id) => { 
       isHost.current = host; 
+      console.log(screenVideo.current, screenVideo.current.muted)
+      screenVideo.current.muted = host; 
       changeButton.current.disabled = !isHost.current
       if (host) { 
         // Obtain a Screen Recording of the host's display
@@ -98,6 +100,7 @@ function App() {
     // Make the Current user the new host of the room 
     socket.current.on('ready-host', () => { 
       isHost.current = true 
+      screenVideo.current.muted = isHost.current; 
       changeButton.current.disabled = !isHost.current
       // Obtain a Screen Recording of the user's display
       navigator.mediaDevices.getDisplayMedia(SCREEN_VIDEO_CONFIG).then(stream => { 
