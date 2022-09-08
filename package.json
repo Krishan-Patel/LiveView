@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "build": "cd client && npm run build", 
-    "install": "cd client && npm install",
+    "install": "cd client && npm install --legacy-peer-deps",
     "heroku-postbuild": "npm run install && npm run build", 
     "run-client": "cd client && npm start", 
     "dev": "nodemon server.js"
