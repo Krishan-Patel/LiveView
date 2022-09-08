@@ -190,41 +190,43 @@ function App() {
     <Container fluid>
       <Row className='d-flex justify-content-between align-items-center m-1' style={{maxHeight: '8vh'}}>
           <h1>
-            <Badge bg="light">Live</Badge>
-            <Badge bg="danger">View</Badge>
+            <Badge bg="light" style={{color: "black"}}>Live</Badge>
+            <Badge bg="danger" text="light">View</Badge>
           </h1>
-          <Button bg="danger" onClick={() => { 
+          <div className='d-flex m-1'>
+            <Button className='m-3' bg="danger" onClick={() => { 
 
-            navigator.mediaDevices.getDisplayMedia(USER_VIDEO_CONFIG).then(stream => { 
-              if (hostConnection.current) { 
-                const tracks = hostConnection.current.getTracks(); 
-                tracks.forEach((track) => { 
-                  track.stop(); 
-                })
-              }
-              hostConnection.current = stream
-              screenVideo.current.srcObject = stream
-              socket.current.emit('host-ready')
-            }).catch((error) => {
-              console.log(error) 
-            })
-          }} ref={button => changeButton.current = button}>Change Stream</Button>
-          <Form className='d-flex align-items-center' onSubmit={(e) => { 
-            e.preventDefault(); 
-            try { 
-              socket.current.emit('name-change', displayName); 
-            }catch(error) { 
-              console.log(error)
-            }    
-          }}>
-            <Form.Group>
-              <Form.Control 
-              type="text" 
-              placeholder='Display Name'
-              value={displayName}
-              onChange={e => setDisplayName(e.target.value)}/>
-            </Form.Group>
-          </Form>
+              navigator.mediaDevices.getDisplayMedia(USER_VIDEO_CONFIG).then(stream => { 
+                if (hostConnection.current) { 
+                  const tracks = hostConnection.current.getTracks(); 
+                  tracks.forEach((track) => { 
+                    track.stop(); 
+                  })
+                }
+                hostConnection.current = stream
+                screenVideo.current.srcObject = stream
+                socket.current.emit('host-ready')
+              }).catch((error) => {
+                console.log(error) 
+              })
+              }} ref={button => changeButton.current = button}>Change Stream</Button>
+              <Form className='d-flex align-items-center' onSubmit={(e) => { 
+              e.preventDefault(); 
+              try { 
+                socket.current.emit('name-change', displayName); 
+              }catch(error) { 
+                console.log(error)
+              }    
+              }}>
+              <Form.Group>
+                <Form.Control 
+                type="text" 
+                placeholder='Display Name'
+                value={displayName}
+                onChange={e => setDisplayName(e.target.value)}/>
+              </Form.Group>
+              </Form>
+          </div>
       </Row>
       <Row className='m-1' style={{height: '70vh'}} >
         <Col className='mr-2 p-0' style={{flex: 8, backgroundColor: 'black', height: '100%'}}>
@@ -240,15 +242,17 @@ function App() {
         </Col>
       </Row>
       <Row className='m-2' style={{height: '20vh'}}>
-       <div style={{height: '100%', overflow: 'scroll', display: 'flex', width: '100%'}}>
-          {videoConnections.map((stream, i) => { 
-            return <video ref={(video) => videoRefs.current[i] = video} key={i} autoPlay width={'100%'} height={'100%'}></video>  
-          })}
-
-       </div>
+        <div style={{height: '100%', overflow: 'scroll', display: 'flex', width: '100%'}}>
+            {videoConnections.map((stream, i) => { 
+              return <div className='rounded-circle' style={{overflow: 'hidden', flexShrink: 0, border: '2px solid black'}}> 
+                        <video ref={(video) => videoRefs.current[i] = video} key={i} autoPlay width={'100%'} height={'100%'}></video>  
+                      </div>
+            })}              
+      
+        </div>    
       </Row> 
-    </Container>
-  ); 
-}
+    </Container> 
+  );  
+}     
 
 export default App;
